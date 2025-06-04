@@ -1,3 +1,18 @@
+def visualize_matrix(F, T, seq1, seq2):
+    print("      " + "  ".join(" " + c for c in "-" + seq2))
+    for i, row in enumerate(F):
+        line = f"{'-' if i == 0 else seq1[i-1]} "
+        for j, val in enumerate(row):
+            if i == 0 and j == 0:
+                line += "  0"
+            elif T[i][j] is None:
+                line += f" {val:2}"
+            else:
+                arrow = {'diag': '\\', 'up': '^', 'left': '<'}[T[i][j]]
+                line += f" {arrow}{val:2}"
+        print(line)
+
+
 def align(seq1, seq2, match=1, mismatch=-1, gap=-2):
     """
     Needleman-Wunsch DP algo
@@ -50,6 +65,9 @@ def align(seq1, seq2, match=1, mismatch=-1, gap=-2):
             aligned1.append('-')
             aligned2.append(seq2[j - 1])
             j -= 1
+
+    # visualize_matrix(F,T,seq1,seq2)
+
     return F[m][n], ''.join(reversed(aligned1)), ''.join(reversed(aligned2))
 
 seq1 = "ACGTGCTAGCTAGCTAGGCTAGCTACGTAGCTAGCTAGCA"
